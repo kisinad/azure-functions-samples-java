@@ -66,12 +66,12 @@ jobs:
 
             -   uses: azure/appservice-settings@v1
                 with:
-                    app-name: 'env.AZURE_FUNCTIONAPP_NAME'
+                    app-name: '${{ env.AZURE_FUNCTIONAPP_NAME }}'
                     mask-inputs: false
 #                    slot-name: 'staging'  # Optional and needed only if the settings have to be configured on the specific deployment slot
                     app-settings-json: '[{ "name": "SCM_DO_BUILD_DURING_DEPLOYMENT", "value": "1", "slotSetting": false }]'
                 id: settings
             -   run: echo "The webapp-url is ${{ steps.settings.outputs.webapp-url }}"
             -   run: |
-                                    az logout
+                    az logout
 

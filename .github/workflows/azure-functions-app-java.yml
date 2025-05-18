@@ -82,7 +82,6 @@ jobs:
                     mask-inputs: false
 #                    general-settings-json: '{"alwaysOnOff": "false", "webSocketsEnabledTrue": "true"}'
                     app-settings-json: '[
-                                            {"name": "alwaysOnOff", "value": "false" },
                                             { "name": "webSocketsEnabledTrue", "value": "true"},
                                             { "name": "SCM_DO_BUILD_DURING_DEPLOYMENT", "value": "1"},
                                             { "name": "POST_BUILD_COMMAND",  "value": "python manage.py makemigrations && python manage.py migrate" }

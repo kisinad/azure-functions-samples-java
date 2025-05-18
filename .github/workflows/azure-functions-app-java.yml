@@ -82,7 +82,7 @@ jobs:
                     app-name: 'hello-function-250516234946'
                     mask-inputs: false
 #                    slot-name: 'staging'  # Optional and needed only if the settings have to be configured on the specific deployment slot
-                    app-settings-json: '[{ "name": "SCM_DO_BUILD_DURING_DEPLOYMENT", "value": "1", "slotSetting": false }]'
+                    app-settings-json: '[{ "name": "SCM_DO_BUILD_DURING_DEPLOYMENT", "value": "1"}, { "name": "POST_BUILD_COMMAND",  "value": "python manage.py makemigrations && python manage.py migrate" }]'
                 id: settings
             -   run: echo "The webapp-url is ${{ steps.settings.outputs.webapp-url }}"
 

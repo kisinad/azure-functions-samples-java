@@ -82,10 +82,10 @@ jobs:
                     mask-inputs: false
 #                    general-settings-json: '{"alwaysOnOff": "false", "webSocketsEnabledTrue": "true"}'
                     app-settings-json: '[
-                                            {"alwaysOnOff", "new" },
-                                            { "webSocketsEnabledTrue", "new"},
-                                            { "SCM_DO_BUILD_DURING_DEPLOYMENT", "new"},
-                                            { "POST_BUILD_COMMAND",  "new" }
+                                            {"name": "alwaysOnOff", "value": "new" },
+                                            { "name": "webSocketsEnabledTrue", "value": "new"},
+                                            { "name": "SCM_DO_BUILD_DURING_DEPLOYMENT", "value": "new"},
+                                            { "name": "POST_BUILD_COMMAND",  "value": "new" }
                                         ]'
                 id: settings
             -   run: echo "The webapp-url is ${{ steps.settings.outputs.webapp-url }}"

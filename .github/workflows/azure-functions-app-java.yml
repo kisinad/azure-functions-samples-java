@@ -91,6 +91,8 @@ jobs:
                    echo "Using the secret (still masked): $MY_SECRET"
                    echo "======="
                    echo ${{ vars.MY_SECRET }}
+                   echo "======="
+                   echo ${{ env.MY_SECRET }}
 
 
             -   name: Azure CLI script

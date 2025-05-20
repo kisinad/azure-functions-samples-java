@@ -82,9 +82,9 @@ jobs:
 #                    kv-name: ${{ secrets.CI_KEY_VAULT_NAME }}
 
             -   name: Add secret to GITHUB_ENV
-#                run: echo "MY_SECRET=${{ secrets.AZURE_CREDENTIALS }}" >> $GITHUB_ENV
-                run: |
-                    printf "MY_SECRET=%s\n" "${{ secrets.CI_KEY_VAULT_NAME }}" >> "$GITHUB_ENV"
+                run: echo "MY_SECRET=${{ secrets.SECRET }}" >> $GITHUB_ENV
+#                run: |
+#                    printf "MY_SECRET=%s\n" "${{ secrets.CI_KEY_VAULT_NAME }}" >> "$GITHUB_ENV"
 
             -  name: echo
                run: |

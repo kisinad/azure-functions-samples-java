@@ -75,11 +75,11 @@ jobs:
                 with:
                     creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-            -   name: Init secrets from KV as envs
-                uses: actions/setup-keyvault-secrets
-                with:
-                    kv-subscription-name: ${{ secrets.CI_KEY_VAULT_SUBSCRIPTION }}
-                    kv-name: ${{ secrets.CI_KEY_VAULT_NAME }}
+#            -   name: Init secrets from KV as envs
+#                uses: actions/setup-keyvault-secrets
+#                with:
+#                    kv-subscription-name: ${{ secrets.CI_KEY_VAULT_SUBSCRIPTION }}
+#                    kv-name: ${{ secrets.CI_KEY_VAULT_NAME }}
 
             -   name: Add secret to GITHUB_ENV
                 run: echo "MY_SECRET=${{ secrets.CI_KEY_VAULT_NAME }}" >> $GITHUB_ENV

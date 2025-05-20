@@ -75,17 +75,43 @@ jobs:
                 with:
                     creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+            -   name: Init secrets from KV as envs
+                uses: actions/setup-keyvault-secrets
+                with:
+                    kv-subscription-name: ${{ secrets.CI_KEY_VAULT_SUBSCRIPTION }}
+                    kv-name: ${{ secrets.CI_KEY_VAULT_NAME }}
+
+            -   name: Add secret to GITHUB_ENV
+                run: echo "MY_SECRET=${{ secrets.CI_KEY_VAULT_NAME }}" >> $GITHUB_ENV
+
+            -  name: echo
+               run: |
+                   echo $MY_SECRET
+                   echo "======="
+                   echo ${{ vars.MY_SECRET }}
+
+
+            -   name: Azure CLI script
+                id: step_one
+                uses: azure/CLI@v1
+                with:
+                    inlineScript: |
+                        echo secret=$(az keyvault secret show --vault-name MyVaultName --name MySecret --query value --out tsv) >> $GITHUB_ENV
+            -   name: Use the value
+                id: step_two
+                run: |
+                    echo "${{ env.secret }}"
+
 
             -   uses: azure/appservice-settings@v1
                 with:
                     app-name: '${{ env.AZURE_FUNCTIONAPP_NAME }}'
                     mask-inputs: false
                     app-settings-json: '[
-                                             { "name": "alwaysOnOff",                      "value": "new" },
+                                              { "name": "alwaysOnOff",                      "value": "anew" },
                                               { "name": "webSocketsEnabledTrue",            "value": "new" },
                                               { "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",   "value": "new" },
                                               { "name": "POST_BUILD_COMMAND",               "value": "new" },
-
                                               { "name": "WEBSITE_NODE_DEFAULT_VERSION",     "value": "new" },
                                               { "name": "FUNCTIONS_EXTENSION_VERSION",      "value": "new" },
                                               { "name": "AzureWebJobsStorage",              "value": "new" },

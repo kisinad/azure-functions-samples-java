@@ -1,0 +1,28 @@
+
+
+     "name": "alwaysOnOff",                      "value": "new" },
+     "name": "webSocketsEnabledTrue",            "value": "new" },
+     "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",   "value": "new" },
+     "name": "POST_BUILD_COMMAND",               "value": "new" },
+
+     "name": "WEBSITE_NODE_DEFAULT_VERSION",     "value": "new" },
+     "name": "FUNCTIONS_EXTENSION_VERSION",      "value": "new" },
+     "name": "AzureWebJobsStorage",              "value": "new" },
+     "name": "WEBSITE_RUN_FROM_PACKAGE",         "value": "new" },
+     "name": "SCM_COMMAND_IDLE_TIMEOUT",         "value": "new" },
+     "name": "SCM_VALIDATE_PACKAGE",             "value": "new" },
+     "name": "ARRAffinityEnabled",               "value": "new" },
+     "name": "HTTP2Enabled",                     "value": "new" },
+     "name": "LOG_LEVEL",                        "value": "new" },
+     "name": "MAX_CONNECTIONS",                  "value": "new" },
+     "name": "REQUEST_TIMEOUT",                  "value": "new" },
+     "name": "FILE_UPLOAD_LIMIT",                "value": "new" },
+     "name": "IDLE_TIMEOUT_IN_MINUTES",          "value": "new" },
+     "name": "DEPLOYMENT_TOOL",                  "value": "new" },
+     "name": "ENABLE_DIAGNOSTICS",               "value": "new" },
+     "name": "APPLICATION_INSIGHTS_KEY",         "value": "new" },
+     "name": "ERROR_STACK_TRACE",                "value": "new" },
+     "name": "HEALTH_CHECK_PATH",                "value": "new" },
+     "name": "WEBSITE_HTTPLOGGING_RETENTION_DAYS","value": "new" },
+     "name": "WEBSITE_ENABLE_APP_SERVICE_STORAGE","value": "new" }
+    }

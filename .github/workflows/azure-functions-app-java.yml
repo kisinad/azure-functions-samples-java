@@ -83,8 +83,6 @@ jobs:
 
             -   name: Add secret to GITHUB_ENV
                 run: echo "MY_SECRET=${{ secrets.AZURE_CREDENTIALS }}" >> $GITHUB_ENV
-                env:
-                    CI_KEY_VAULT_NAME: ${{ secrets.AZURE_CREDENTIALS }}
 
             -  name: echo
                run: |

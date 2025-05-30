@@ -48,18 +48,18 @@ jobs:
             #   with:
             #     creds: ${{ secrets.AZURE_RBAC_CREDENTIALS }} # set up AZURE_RBAC_CREDENTIALS secrets in your repository
 
-            -   name: Setup Java Sdk ${{ env.JAVA_VERSION }}
-                uses: actions/setup-java@v4
-                with:
-                    distribution: ${{ env.DISTRIBUTION }}
-                    java-version: ${{ env.JAVA_VERSION }}
-
-            -   name: 'Restore Project Dependencies Using Mvn'
-                shell: pwsh # For Linux, use bash
-                run: |
-                    pushd './${{ env.POM_XML_DIRECTORY }}'
-                    mvn clean package
-                    popd
+#            -   name: Setup Java Sdk ${{ env.JAVA_VERSION }}
+#                uses: actions/setup-java@v4
+#                with:
+#                    distribution: ${{ env.DISTRIBUTION }}
+#                    java-version: ${{ env.JAVA_VERSION }}
+#
+#            -   name: 'Restore Project Dependencies Using Mvn'
+#                shell: pwsh # For Linux, use bash
+#                run: |
+#                    pushd './${{ env.POM_XML_DIRECTORY }}'
+#                    mvn clean package
+#                    popd
 
 #            -   name: 'Run Azure Functions Action'
 #                uses: Azure/functions-action@v1
@@ -113,7 +113,7 @@ jobs:
                         if [[ "${key_vault_settings_array[$i]}" == secrets.* ]]; then
                             echo "+++if statement+++++"
                             echo " = ${key_vault_settings_array[$i]#secrets.}"
-                            key="${key_vault_settings_array[$i]#}"
+                            key="${key_vault_settings_array[$i]}"
 
                             value="${!key}"
                             key_vault_settings_array[$i]="$value"

@@ -111,7 +111,8 @@ jobs:
                     for i in "${!key_vault_settings_array[@]}"; do
                         echo "+++for loop+++++"
                         if [[ "${key_vault_settings_array[$i]}" == secrets.* ]]; then
-                             echo "+++if statement+++++"
+                            echo "+++if statement+++++"
+                            echo "${key_vault_settings_array[$i]#secrets.}"
                             key="${key_vault_settings_array[$i]#secrets.}"
                             echo "${!key}"
                             value="${!key}"

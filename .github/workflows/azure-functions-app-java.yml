@@ -112,9 +112,9 @@ jobs:
                         echo "+++for loop+++++"
                         if [[ "${key_vault_settings_array[$i]}" == secrets.* ]]; then
                             echo "+++if statement+++++"
-                            echo "${key_vault_settings_array[$i]#secrets.}"
+                            echo " = ${key_vault_settings_array[$i]#secrets.}"
                             key="${key_vault_settings_array[$i]#secrets.}"
-                            echo "${key}"
+                            echo "${{ key }}"
                             value="${!key}"
                             key_vault_settings_array[$i]="$value"
                             echo "$key=$value" >> "$GITHUB_ENV"

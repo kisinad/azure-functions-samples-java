@@ -114,7 +114,9 @@ jobs:
                             echo "+++if statement+++++"
                             echo " = ${key_vault_settings_array[$i]#secrets.}"
                             key="${key_vault_settings_array[$i]}"
-                            echo $key
+
+                            value="${{ secrets[key] }}"
+                            echo "===-=---=- $value"
                             value="${!key}"
                             key_vault_settings_array[$i]="$value"
                             echo "$key=$value" >> "$GITHUB_ENV"

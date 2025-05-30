@@ -109,8 +109,9 @@ jobs:
                     key_vault_settings_array=("secrets.SECRET_ONE" "secrets.SECRET_TWO")
 
                     for i in "${!key_vault_settings_array[@]}"; do
-                        echo "=========="
+                        echo "+++for loop+++++"
                         if [[ "${key_vault_settings_array[$i]}" == secrets.* ]]; then
+                             echo "+++if statement+++++"
                             key="${key_vault_settings_array[$i]#secrets.}"
                             echo "${!key}"
                             value="${!key}"

@@ -106,6 +106,18 @@ jobs:
                 run: |
                     echo "${{ env.secret }}"
 
+                    key_vault_settings_array=("{secrets.SECRET_ONE}" "{secrets.SECRET_TWO}")
+
+                      for i in "${!key_vault_settings_array[@]}"; do
+                        if [[ "${key_vault_settings_array[$i]}" == secrets.* ]]; then
+                            key="${key_vault_settings_array[$i]#secrets.}"
+                            echo "${!key}"
+                            value="${!key}"
+                            key_vault_settings_array[$i]="$value"
+                            echo "$key=$value" >> "$GITHUB_ENV"
+                        fi
+                      done
+
 
             -   uses: azure/appservice-settings@v1
                 with:

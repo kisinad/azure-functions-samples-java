@@ -106,7 +106,7 @@ jobs:
                 run: |
                     echo "${{ env.secret }}"
 
-                    key_vault_settings_array=("{secrets.SECRET_ONE}" "{secrets.SECRET_TWO}")
+                    key_vault_settings_array=("secrets.SECRET_ONE" "secrets.SECRET_TWO")
 
                       for i in "${!key_vault_settings_array[@]}"; do
                         if [[ "${key_vault_settings_array[$i]}" == secrets.* ]]; then

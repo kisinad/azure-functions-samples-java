@@ -48,8 +48,14 @@ jobs:
             -   name: Generate output
                 id: gen_output
                 run: |
-                    version="${{ secrets[matrix.version] }}"
-                    echo "${version}=${version}" >> "$GITHUB_OUTPUT"
+                    secret_name="${{ matrix.version }}"
+                    secret_value="${{ secrets[matrix.version] }}"
+                    secret=$(eval echo "\$$secret_value")
+
+                    # mask the value
+                    echo "::add-mask::$secret_value"
+
+                    echo "${secret_name}=$secret_value" >> "$GITHUB_OUTPUT"
 
     build-and-deploy:
         runs-on: ubuntu-latest # For Linux, use ubuntu-latest

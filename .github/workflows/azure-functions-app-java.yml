@@ -63,7 +63,9 @@ jobs:
         needs: [job1]
         environment: dev
         steps:
-            -  run: echo '${{ toJSON(needs.job1.outputs) }}'
+            -  run: |
+                echo "::remove-mask::$MY_SECRET"
+                echo '${{ toJSON(needs.job1.outputs) }}'
             -   name: 'Checkout GitHub Action'
                 uses: actions/checkout@v4
 

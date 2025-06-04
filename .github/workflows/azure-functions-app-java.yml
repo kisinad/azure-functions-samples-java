@@ -49,7 +49,8 @@ jobs:
                 id: gen_output
                 run: |
                     secret_name="${{ matrix.version }}"
-                    secret_value="${{ secrets[matrix.version] }}"
+                    secret_value1="${{ secrets[matrix.version] }}"
+                    secret_value="${!secret_value1}"
                     secret=$(eval echo "\$$secret_value")
 
                     # mask the value

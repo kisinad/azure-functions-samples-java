@@ -54,9 +54,18 @@ jobs:
                     # secret_value="${!secret_value1}"
                     # secret=$(eval echo "\$$secret_value")
 
+                    if [[ "$secret_value" == *$'\n'* ]]; then
+                        echo "${secret_name}<<EOF" >> $GITHUB_OUTPUT
+                        echo "$secret_value1" >> $GITHUB_OUTPUT
+                        echo "EOF" >> $GITHUB_OUTPUT
+                    else
+                        echo "${secret_name}=$secret_value1" >> "$GITHUB_OUTPUT"
+                    fi
+
+
                     # mask the value
                     echo "::add-mask::$secret_value1"
-                    echo "${secret_name}=$secret_value1" >> "$GITHUB_ENV"
+                    # echo "${secret_name}=$secret_value1" >> "$GITHUB_ENV"
                     # echo "${secret_name}=$secret_value1" >> "$GITHUB_OUTPUT"
 
     build-and-deploy:

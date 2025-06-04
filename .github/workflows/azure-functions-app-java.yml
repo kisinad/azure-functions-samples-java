@@ -55,9 +55,9 @@ jobs:
                     # secret=$(eval echo "\$$secret_value")
 
                     # mask the value
-                    echo "::add-mask::$secret_value"
+                    echo "::add-mask::$secret_value1"
 
-                    echo "${secret_name}=$secret_value" >> "$GITHUB_OUTPUT"
+                    echo "${secret_name}=$secret_value1" >> "$GITHUB_OUTPUT"
 
     build-and-deploy:
         runs-on: ubuntu-latest # For Linux, use ubuntu-latest

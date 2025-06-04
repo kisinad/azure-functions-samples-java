@@ -51,7 +51,7 @@ jobs:
                     secret_name="${{ matrix.version }}"
                     secret_value1="${{ secrets[matrix.version] }}"
                     secret_value="${!secret_value1}"
-                    secret=$(eval echo "\$$secret_value")
+                    # secret=$(eval echo "\$$secret_value")
 
                     # mask the value
                     echo "::add-mask::$secret_value"

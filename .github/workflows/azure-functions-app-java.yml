@@ -37,6 +37,7 @@ env:
 jobs:
     job1:
         runs-on: ubuntu-latest
+        environment: dev
         outputs:
             AZURE_CREDENTIALS: ${{ steps.gen_output.outputs.AZURE_CREDENTIALS }}
             SECRET: ${{ steps.gen_output.outputs.SECRET }}

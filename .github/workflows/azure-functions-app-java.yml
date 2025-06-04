@@ -38,8 +38,8 @@ jobs:
     job1:
         runs-on: ubuntu-latest
         outputs:
-            output_AZURE_CREDENTIALS: ${{ steps.gen_output.outputs.output_AZURE_CREDENTIALS }}
-            output_SECRET: ${{ steps.gen_output.outputs.output_SECRET }}
+            AZURE_CREDENTIALS: ${{ steps.gen_output.outputs.AZURE_CREDENTIALS }}
+            SECRET: ${{ steps.gen_output.outputs.SECRET }}
         strategy:
             matrix:
                 version: [ AZURE_CREDENTIALS, SECRET]
@@ -47,8 +47,8 @@ jobs:
             -   name: Generate output
                 id: gen_output
                 run: |
-                    version="${{ matrix.version }}"
-                    echo "output_${version}=${version}" >> "$GITHUB_OUTPUT"
+                    version="${{ secrets[matrix.version] }}"
+                    echo "${version}=${version}" >> "$GITHUB_OUTPUT"
 
     build-and-deploy:
         runs-on: ubuntu-latest # For Linux, use ubuntu-latest

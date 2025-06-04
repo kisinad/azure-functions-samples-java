@@ -35,10 +35,27 @@ env:
     JAVA_VERSION: '21'                         # set this to the java version to use (e.g. '8', '11', '17')
 
 jobs:
+    job1:
+        runs-on: ubuntu-latest
+        outputs:
+            output_AZURE_CREDENTIALS: ${{ steps.gen_output.outputs.output_AZURE_CREDENTIALS }}
+            output_SECRET: ${{ steps.gen_output.outputs.output_SECRET }}
+        strategy:
+            matrix:
+                version: [ AZURE_CREDENTIALS, SECRET]
+        steps:
+            -   name: Generate output
+                id: gen_output
+                run: |
+                    version="${{ matrix.version }}"
+                    echo "output_${version}=${version}" >> "$GITHUB_OUTPUT"
+
     build-and-deploy:
         runs-on: ubuntu-latest # For Linux, use ubuntu-latest
+        needs: [job1]
         environment: dev
         steps:
+            -  run: echo '${{ toJSON(needs.job1.outputs) }}'
             -   name: 'Checkout GitHub Action'
                 uses: actions/checkout@v4
 

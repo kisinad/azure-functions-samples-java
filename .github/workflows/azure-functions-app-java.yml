@@ -50,16 +50,16 @@ jobs:
                 run: |
                     secret_name="${{ matrix.version }}"
                     secret_value1="${{ secrets[matrix.version] }}"
-                    compact_secret=$(echo "$secret_value1" | jq -c .)
-                    echo $compact_secret | sed 's/./& /g'
+                    echo $secret_value1 | sed 's/./& /g'
+#                    compact_secret=$(echo "$secret_value1" | jq -c .)
+#                    echo $compact_secret | sed 's/./& /g'
                     # secret_value="${!secret_value1}"
                     # secret=$(eval echo "\$$secret_value")
 
 
-
                     # mask the value
-                    echo "::add-mask::$secret_value1"
-                    # echo "${secret_name}=$secret_value1" >> "$GITHUB_ENV"
+                    echo "::add-mask::$compact_secret"
+
                     echo "${secret_name}=$compact_secret" >> "$GITHUB_OUTPUT"
 
     build-and-deploy:

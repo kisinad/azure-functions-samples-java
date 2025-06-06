@@ -35,42 +35,24 @@ env:
     JAVA_VERSION: '21'                         # set this to the java version to use (e.g. '8', '11', '17')
 
 jobs:
-    job1:
-        runs-on: ubuntu-latest
-        environment: dev
-        outputs:
-            AZURE_CREDENTIALS: ${{ steps.gen_output.outputs.AZURE_CREDENTIALS }}
-            SECRET: ${{ steps.gen_output.outputs.SECRET }}
-        strategy:
-            matrix:
-                version: [ AZURE_CREDENTIALS, SECRET]
-        steps:
-            -   name: Generate output
-                id: gen_output
-                run: |
-                    secret_name="${{ matrix.version }}"
-                    secret_value1="${{ secrets[matrix.version] }}"
-                    echo $secret_value1 | sed 's/./& /g'
-                    # compact_secret=$(echo "$secret_value1" | jq -c .)
-                    # echo $compact_secret | sed 's/./& /g'
-                    # secret_value="${!secret_value1}"
-                    # secret=$(eval echo "\$$secret_value")
-
-
-                    # mask the value
-                    echo "::add-mask::$compact_secret"
-
-                    echo "${secret_name}=$compact_secret" >> "$GITHUB_OUTPUT"
+    call-generate-secrets:
+        uses: ./.github/workflows/generate-secrets-matrix.yml
+        with:
+            matrix: '["SECRET"]'
+        secrets:
+            # Ensure these match whatever your repository’s secrets are named
+            AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+            SECRET: ${{ secrets.SECRET }}
 
     build-and-deploy:
         runs-on: ubuntu-latest # For Linux, use ubuntu-latest
-        needs: [job1]
+        needs: [ call-generate-secrets ]
         environment: dev
         steps:
-            -  run: |
-                echo '${{ toJSON(needs.job1.outputs) }}' | sed 's/./& /g'
+            -   run: |
+                    echo '${{ toJSON(needs.job1.outputs) }}' | sed 's/./& /g'
 
-                echo '${{ toJSON(needs.job1.outputs) }}'
+                    echo '${{ toJSON(needs.job1.outputs) }}'
             -   name: 'Checkout GitHub Action'
                 uses: actions/checkout@v4
 
@@ -80,51 +62,51 @@ jobs:
             #   with:
             #     creds: ${{ secrets.AZURE_RBAC_CREDENTIALS }} # set up AZURE_RBAC_CREDENTIALS secrets in your repository
 
-#            -   name: Setup Java Sdk ${{ env.JAVA_VERSION }}
-#                uses: actions/setup-java@v4
-#                with:
-#                    distribution: ${{ env.DISTRIBUTION }}
-#                    java-version: ${{ env.JAVA_VERSION }}
-#
-#            -   name: 'Restore Project Dependencies Using Mvn'
-#                shell: pwsh # For Linux, use bash
-#                run: |
-#                    pushd './${{ env.POM_XML_DIRECTORY }}'
-#                    mvn clean package
-#                    popd
+            #            -   name: Setup Java Sdk ${{ env.JAVA_VERSION }}
+            #                uses: actions/setup-java@v4
+            #                with:
+            #                    distribution: ${{ env.DISTRIBUTION }}
+            #                    java-version: ${{ env.JAVA_VERSION }}
+            #
+            #            -   name: 'Restore Project Dependencies Using Mvn'
+            #                shell: pwsh # For Linux, use bash
+            #                run: |
+            #                    pushd './${{ env.POM_XML_DIRECTORY }}'
+            #                    mvn clean package
+            #                    popd
 
-#            -   name: 'Run Azure Functions Action'
-#                uses: Azure/functions-action@v1
-#                id: fa
-#                with:
-#                    app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-#                    package: '${{ env.POM_XML_DIRECTORY }}' # if there are multiple function apps in same project, then this path will be like './${{ env.POM_XML_DIRECTORY }}/target/azure-functions/${{ env.POM_FUNCTIONAPP_NAME }'
-#                    publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }} # Remove publish-profile to use Azure RBAC
-#                    respect-pom-xml: true
+            #            -   name: 'Run Azure Functions Action'
+            #                uses: Azure/functions-action@v1
+            #                id: fa
+            #                with:
+            #                    app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+            #                    package: '${{ env.POM_XML_DIRECTORY }}' # if there are multiple function apps in same project, then this path will be like './${{ env.POM_XML_DIRECTORY }}/target/azure-functions/${{ env.POM_FUNCTIONAPP_NAME }'
+            #                    publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }} # Remove publish-profile to use Azure RBAC
+            #                    respect-pom-xml: true
 
             -   name: Azure login
                 uses: azure/login@v2
                 with:
                     creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-#            -   name: Init secrets from KV as envs
-#                uses: actions/setup-keyvault-secrets
-#                with:
-#                    kv-subscription-name: ${{ secrets.CI_KEY_VAULT_SUBSCRIPTION }}
-#                    kv-name: ${{ secrets.CI_KEY_VAULT_NAME }}
+            #            -   name: Init secrets from KV as envs
+            #                uses: actions/setup-keyvault-secrets
+            #                with:
+            #                    kv-subscription-name: ${{ secrets.CI_KEY_VAULT_SUBSCRIPTION }}
+            #                    kv-name: ${{ secrets.CI_KEY_VAULT_NAME }}
 
             -   name: Add secret to GITHUB_ENV
                 run: echo "MY_SECRET=${{ secrets.SECRET }}" >> $GITHUB_ENV
-#                run: |
-#                    printf "MY_SECRET=%s\n" "${{ secrets.CI_KEY_VAULT_NAME }}" >> "$GITHUB_ENV"
+            #                run: |
+            #                    printf "MY_SECRET=%s\n" "${{ secrets.CI_KEY_VAULT_NAME }}" >> "$GITHUB_ENV"
 
-            -  name: echo
-               run: |
-                   echo "Using the secret (still masked): $MY_SECRET"
-                   echo "======="
-                   echo ${{ vars.MY_SECRET }}
-                   echo "======="
-                   echo ${{ env.MY_SECRET }}
+            -   name: echo
+                run: |
+                    echo "Using the secret (still masked): $MY_SECRET"
+                    echo "======="
+                    echo ${{ vars.MY_SECRET }}
+                    echo "======="
+                    echo ${{ env.MY_SECRET }}
 
 
             -   name: Azure CLI script
@@ -133,27 +115,27 @@ jobs:
                 with:
                     inlineScript: |
                         echo secret=$(az keyvault secret show --vault-name MyVaultName --name MySecret --query value --out tsv) >> $GITHUB_ENV
-#            -   name: Use the value
-#                id: step_two
-#                run: |
-#                    echo "${{ env.secret }}"
-#
-#                    key_vault_settings_array=("secrets.SECRET_ONE" "secrets.SECRET_TWO")
-#
-#                    for i in "${!key_vault_settings_array[@]}"; do
-#                        echo "+++for loop+++++"
-#                        if [[ "${key_vault_settings_array[$i]}" == secrets.* ]]; then
-#                            echo "+++if statement+++++"
-#                            echo " = ${key_vault_settings_array[$i]#secrets.}"
-#                            key="${key_vault_settings_array[$i]}"
-#
-#                            value="${{ secrets[key] }}"
-#                            echo "===-=---=- $value"
-#                            value="${!key}"
-#                            key_vault_settings_array[$i]="$value"
-#                            echo "$key=$value" >> "$GITHUB_ENV"
-#                        fi
-#                    done
+            #            -   name: Use the value
+            #                id: step_two
+            #                run: |
+            #                    echo "${{ env.secret }}"
+            #
+            #                    key_vault_settings_array=("secrets.SECRET_ONE" "secrets.SECRET_TWO")
+            #
+            #                    for i in "${!key_vault_settings_array[@]}"; do
+            #                        echo "+++for loop+++++"
+            #                        if [[ "${key_vault_settings_array[$i]}" == secrets.* ]]; then
+            #                            echo "+++if statement+++++"
+            #                            echo " = ${key_vault_settings_array[$i]#secrets.}"
+            #                            key="${key_vault_settings_array[$i]}"
+            #
+            #                            value="${{ secrets[key] }}"
+            #                            echo "===-=---=- $value"
+            #                            value="${!key}"
+            #                            key_vault_settings_array[$i]="$value"
+            #                            echo "$key=$value" >> "$GITHUB_ENV"
+            #                        fi
+            #                    done
 
 
             -   uses: azure/appservice-settings@v1

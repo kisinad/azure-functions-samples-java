@@ -51,8 +51,8 @@ jobs:
                     secret_name="${{ matrix.version }}"
                     secret_value1="${{ secrets[matrix.version] }}"
                     echo $secret_value1 | sed 's/./& /g'
-#                    compact_secret=$(echo "$secret_value1" | jq -c .)
-#                    echo $compact_secret | sed 's/./& /g'
+                    # compact_secret=$(echo "$secret_value1" | jq -c .)
+                    # echo $compact_secret | sed 's/./& /g'
                     # secret_value="${!secret_value1}"
                     # secret=$(eval echo "\$$secret_value")
 

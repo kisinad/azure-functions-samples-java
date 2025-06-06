@@ -38,7 +38,7 @@ jobs:
     call-generate-secrets:
         uses: ./.github/workflows/generate-secrets-matrix.yml
         with:
-            matrix: `["AZURE_CREDENTIALS","SECRET"]`
+            matrix: '["AZURE_CREDENTIALS","SECRET"]'
         secrets:
             inherit
 

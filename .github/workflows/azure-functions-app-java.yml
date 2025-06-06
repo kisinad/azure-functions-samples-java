@@ -35,7 +35,6 @@ env:
     JAVA_VERSION: '21'                         # set this to the java version to use (e.g. '8', '11', '17')
 
 jobs:
-    environment: dev
     call-generate-secrets:
         uses: ./.github/workflows/generate-secrets-matrix.yml
         with:

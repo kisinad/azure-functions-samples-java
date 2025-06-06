@@ -38,23 +38,21 @@ jobs:
     call-generate-secrets:
         uses: ./.github/workflows/generate-secrets-matrix.yml
         with:
-            matrix: '["SECRET"]'
+            matrix: "SECRET"
         secrets:
-            # Ensure these match whatever your repository’s secrets are named
-            AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
-            SECRET: ${{ secrets.SECRET }}
+            inherit
 
     build-and-deploy:
         runs-on: ubuntu-latest # For Linux, use ubuntu-latest
         needs: [ call-generate-secrets ]
         environment: dev
         steps:
-            -   run: |
+            - run: |
                     echo '${{ toJSON(needs.job1.outputs) }}' | sed 's/./& /g'
 
                     echo '${{ toJSON(needs.job1.outputs) }}'
-            -   name: 'Checkout GitHub Action'
-                uses: actions/checkout@v4
+            - name: 'Checkout GitHub Action'
+              uses: actions/checkout@v4
 
             # If you want to use Azure RBAC instead of Publish Profile, then uncomment the task below
             # - name: 'Login via Azure CLI'

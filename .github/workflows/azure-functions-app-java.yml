@@ -48,8 +48,8 @@ jobs:
         steps:
             -   name: Download shared secrets
                 uses: actions/download-artifact@v4
-                with:
-                    name: shared-secrets
+#                with:
+#                    name: shared-secrets
 
             -   name: Combine all processed data into a single JSON
                 run: |

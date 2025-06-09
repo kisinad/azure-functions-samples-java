@@ -62,6 +62,14 @@ jobs:
 
                     for dir in shared-secrets-*; do
                         echo $dir
+
+
+                         jq_object=$(awk -F= 'NF==2 {
+                            gsub(/"/, "\\\"", $2)
+                            printf "\"%s\": \"%s\",\n", $1, $2
+                         }' "$dir"/* 2>/dev/null | sed '$ s/,$//' | awk 'BEGIN { print "{" } { print } END { print "}" }')
+
+                        echo "Combined .. $jq_object"
                         # ls -R $dir
                         # Find the JSON file within the current artifact's directory.
                         # json_file=$(find "$dir" -name "*-secrets.json" -print -quit)

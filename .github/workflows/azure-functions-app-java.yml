@@ -66,7 +66,7 @@ jobs:
                         if [[ -f "$json_file" ]]; then
                               # Merge the content of the current JSON file into the combined file.
                               # This uses 'jq' to merge JSON objects.
-                            jq -s '. *.[1]' combined_output.json "$json_file" > temp.json && mv temp.json secrets.json
+                            jq -s '. *.[0]' combined_output.json "$json_file" > temp.json && mv temp.json secrets.json
                         fi
                     done
 

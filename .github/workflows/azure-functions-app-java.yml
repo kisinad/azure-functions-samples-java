@@ -56,10 +56,12 @@ jobs:
                     echo '{}' > secrets.json
 
                     for dir in shared-secrets-*; do
-                         jq_object=$(awk -F= 'NF==2 {
-                            gsub(/"/, "\\\"", $2)
+                        jq_object=$(awk -F= 'NF==2 {
+                            gsub(/^'\''|'\''$/, "", $2)      # Remove leading/trailing single quotes
+                            gsub(/"/, "\\\"", $2)           # Escape any double quotes inside
                             printf "\"%s\": \"%s\",\n", $1, $2
-                         }' "$dir"/* 2>/dev/null | sed '$ s/,$//' | awk 'BEGIN { print "{" } { print } END { print "}" }')
+                        }' "$dir"/* 2>/dev/null | sed '$ s/,$//' | awk 'BEGIN { print "{" } { print } END { print "}" }')
+
 
                         echo "$jq_object" | jq -s '.[0] * .[1]' secrets.json - > tmp.json && mv tmp.json secrets.json
                     done

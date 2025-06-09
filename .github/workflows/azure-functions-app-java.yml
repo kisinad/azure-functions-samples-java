@@ -64,15 +64,15 @@ jobs:
                         awk 'BEGIN { print "{" } { print } END { print "}" }' > "${f%.json}.converted.json"
                     done
 
-                    jq -s 'reduce .[] as $item ({}; . * $item)' shared-secrets-*/*.json > secrets.json
+                    # jq -s 'reduce .[] as $item ({}; . * $item)' shared-secrets-*/*.json > secrets.json
 
 
                     for dir in shared-secrets-*; do
                         # echo $dir
                         # ls -R $dir
                         # Find the JSON file within the current artifact's directory.
-                        json_file=$(find "$dir" -name "*-secrets.json" -print -quit)
-                        cat $json_file
+                        # json_file=$(find "$dir" -name "*-secrets.json" -print -quit)
+                        # cat $json_file
 
                         #    jq . "$dir"
 

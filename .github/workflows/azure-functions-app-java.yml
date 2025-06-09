@@ -51,9 +51,20 @@ jobs:
                 with:
                     name: shared-secrets
 
-            - name: Read cached secrets
+            - name: Combine all processed data into a single JSON
               run: |
                   ls -l
+
+                   for dir in downloaded_artifacts/processed-data-*; do
+                  # Find the JSON file within the current artifact's directory.
+                  json_file=$(find "$dir" -name "*-secrets.json" -print -quit)
+                  if [[ -f "$json_file" ]]; then
+                    # Merge the content of the current JSON file into the combined file.
+                    # This uses 'jq' to merge JSON objects.
+                    jq -s '. *.[1]' combined_output.json "$json_file" > temp.json && mv temp.json secrets.json
+                  fi
+                  done
+
                   cat secrets.json
 
     build-and-deploy:

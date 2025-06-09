@@ -46,11 +46,16 @@ jobs:
         runs-on: ubuntu-latest
         needs: generate-secrets
         steps:
-            - name: Restore Secrets
-              uses: actions/cache@v4
-              with:
-                  path: secrets.json
-                  key: ${{ runner.os }}-cache-${{ github.sha }}
+            -   name: Download shared secrets
+                uses: actions/download-artifact@v4
+                with:
+                    name: shared-secrets
+
+#            - name: Restore Secrets
+#              uses: actions/cache@v4
+#              with:
+#                  path: secrets.json
+#                  key: ${{ runner.os }}-cache-${{ github.sha }}
             - name: Read cached secrets
               run: cat secrets.json
 

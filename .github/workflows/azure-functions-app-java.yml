@@ -55,7 +55,7 @@ jobs:
                 run: |
                     ls -l
 
-                    for dir in *-secrets.json; do
+                    for dir in shared-secrets-*; do
                         # Find the JSON file within the current artifact's directory.
                         json_file=$(find "$dir" -name "*-secrets.json" -print -quit)
                           if [[ -f "$json_file" ]]; then

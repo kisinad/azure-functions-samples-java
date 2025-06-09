@@ -55,10 +55,10 @@ jobs:
                 run: |
                     ls -l
 
-                    echo "{}" > combined_output.json
+                    echo '{}' > secrets.json
 
                     # jq -s 'reduce .[] as $item ({}; . * $item)' shared-secrets-*/*.json > secrets.json
-                    touch secrets.json
+
 
                     for dir in shared-secrets-*; do
                         # echo $dir

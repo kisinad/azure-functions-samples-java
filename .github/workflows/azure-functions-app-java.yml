@@ -50,6 +50,7 @@ jobs:
                 uses: actions/download-artifact@v4
                 with:
                     name: shared-secrets
+                    path: secrets.json
 
 #            - name: Restore Secrets
 #              uses: actions/cache@v4

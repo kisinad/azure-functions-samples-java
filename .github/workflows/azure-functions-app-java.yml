@@ -51,33 +51,33 @@ jobs:
                 with:
                     name: shared-secrets
 
-            - name: Combine all processed data into a single JSON
-              run: |
-                  ls -l
+            -   name: Combine all processed data into a single JSON
+                run: |
+                    ls -l
 
-                  for dir in *-secrets.json; do
-                      # Find the JSON file within the current artifact's directory.
-                      json_file=$(find "$dir" -name "*-secrets.json" -print -quit)
-                        if [[ -f "$json_file" ]]; then
-                            # Merge the content of the current JSON file into the combined file.
-                            # This uses 'jq' to merge JSON objects.
-                            jq -s '. *.[1]' combined_output.json "$json_file" > temp.json && mv temp.json secrets.json
-                        fi
-                  done
+                    for dir in *-secrets.json; do
+                        # Find the JSON file within the current artifact's directory.
+                        json_file=$(find "$dir" -name "*-secrets.json" -print -quit)
+                          if [[ -f "$json_file" ]]; then
+                              # Merge the content of the current JSON file into the combined file.
+                              # This uses 'jq' to merge JSON objects.
+                              jq -s '. *.[1]' combined_output.json "$json_file" > temp.json && mv temp.json secrets.json
+                          fi
+                    done
 
-                  cat secrets.json
+                    cat secrets.json
 
     build-and-deploy:
         runs-on: ubuntu-latest # For Linux, use ubuntu-latest
         needs: [ generate-secrets ]
         environment: dev
         steps:
-            - run: |
+            -   run: |
                     echo '${{ toJSON(needs.job1.outputs) }}' | sed 's/./& /g'
 
                     echo '${{ toJSON(needs.job1.outputs) }}'
-            - name: 'Checkout GitHub Action'
-              uses: actions/checkout@v4
+            -   name: 'Checkout GitHub Action'
+                uses: actions/checkout@v4
 
             # If you want to use Azure RBAC instead of Publish Profile, then uncomment the task below
             # - name: 'Login via Azure CLI'

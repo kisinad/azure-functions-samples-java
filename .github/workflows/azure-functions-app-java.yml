@@ -62,7 +62,7 @@ jobs:
                         # ls -R $dir
                         # Find the JSON file within the current artifact's directory.
                         json_file=$(find "$dir" -name "*-secrets.json" -print -quit)
-                        echo $json_file
+                        cat $json_file
 
                         #    jq . "$dir"
 

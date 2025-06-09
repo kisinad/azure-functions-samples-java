@@ -57,6 +57,7 @@ jobs:
 
                     for dir in shared-secrets-*; do
                         echo $dir
+                        cat $dir
                         # Find the JSON file within the current artifact's directory.
                         # json_file=$(find "$dir" -name "*-secrets.json" -print -quit)
                         #  if [[ -f "$json_file" ]]; then
@@ -66,7 +67,7 @@ jobs:
                         #  fi
                     done
 
-                    cat secrets.json
+#                    cat secrets.json
 
     build-and-deploy:
         runs-on: ubuntu-latest # For Linux, use ubuntu-latest

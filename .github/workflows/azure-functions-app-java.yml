@@ -61,7 +61,7 @@ jobs:
 
 
                     for dir in shared-secrets-*; do
-                        echo $dir
+                        # echo $dir
 
 
                          jq_object=$(awk -F= 'NF==2 {

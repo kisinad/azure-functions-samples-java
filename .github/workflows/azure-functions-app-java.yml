@@ -50,7 +50,6 @@ jobs:
                 uses: actions/download-artifact@v4
                 with:
                     name: shared-secrets
-                    path: secrets.json
 
 #            - name: Restore Secrets
 #              uses: actions/cache@v4
@@ -59,8 +58,9 @@ jobs:
 #                  key: ${{ runner.os }}-cache-${{ github.sha }}
             - name: Read cached secrets
               run: |
-                  ls -R secrets.json
-                  cat secrets.json/secrets.json
+                  unzip shared-secrets
+#                  ls -R secrets.json
+                  cat secrets.json
 
     build-and-deploy:
         runs-on: ubuntu-latest # For Linux, use ubuntu-latest

@@ -57,7 +57,9 @@ jobs:
 #                  path: secrets.json
 #                  key: ${{ runner.os }}-cache-${{ github.sha }}
             - name: Read cached secrets
-              run: cat secrets.json
+              run: |
+                  ls -ltra shared-secrets
+                  cat secrets.json
 
     build-and-deploy:
         runs-on: ubuntu-latest # For Linux, use ubuntu-latest

@@ -58,7 +58,7 @@ jobs:
 #                  key: ${{ runner.os }}-cache-${{ github.sha }}
             - name: Read cached secrets
               run: |
-                  ls -ltra shared-secrets
+                  ls
                   cat secrets.json
 
     build-and-deploy:

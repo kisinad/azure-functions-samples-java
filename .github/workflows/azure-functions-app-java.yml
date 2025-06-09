@@ -58,7 +58,7 @@ jobs:
                     echo "{}" > combined_output.json
 
                     # jq -s 'reduce .[] as $item ({}; . * $item)' shared-secrets-*/*.json > secrets.json
-
+                    touch secrets.json
 
                     for dir in shared-secrets-*; do
                         # echo $dir
@@ -70,6 +70,7 @@ jobs:
                          }' "$dir"/* 2>/dev/null | sed '$ s/,$//' | awk 'BEGIN { print "{" } { print } END { print "}" }')
 
                         echo "Combined .. $jq_object"
+
                         echo "$jq_object" | jq -s '.[0] * .[1]' secrets.json - > tmp.json && mv tmp.json secrets.json
                         # ls -R $dir
                         # Find the JSON file within the current artifact's directory.

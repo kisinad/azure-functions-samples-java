@@ -60,7 +60,7 @@ jobs:
             - name: Read cached secrets
               run: |
                   ls -R secrets.json
-                  cat /secrets.json/secrets.json
+                  cat secrets.json/secrets.json
 
     build-and-deploy:
         runs-on: ubuntu-latest # For Linux, use ubuntu-latest

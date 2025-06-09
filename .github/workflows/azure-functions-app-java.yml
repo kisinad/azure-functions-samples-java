@@ -75,7 +75,7 @@ jobs:
                         # fi
                     # done
 
-                    # cat combined_output.json
+                    cat combined_output.json
 
     build-and-deploy:
         runs-on: ubuntu-latest # For Linux, use ubuntu-latest

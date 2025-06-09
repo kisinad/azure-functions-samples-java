@@ -57,6 +57,13 @@ jobs:
 
                     echo "{}" > combined_output.json
 
+                    for f in shared-secrets-*/*.json; do
+                        echo "Converting $f to proper JSON"
+                        awk -F= 'NF==2 { gsub(/"/, "\\\"", $2); printf "\"%s\": \"%s\",\n", $1, $2 }' "$f" |
+                        sed '$ s/,$//' |  # remove trailing comma
+                        awk 'BEGIN { print "{" } { print } END { print "}" }' > "${f%.json}.converted.json"
+                    done
+
                     jq -s 'reduce .[] as $item ({}; . * $item)' shared-secrets-*/*.json > secrets.json
 
 

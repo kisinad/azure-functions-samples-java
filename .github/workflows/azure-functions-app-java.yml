@@ -57,8 +57,6 @@ jobs:
 
                     echo "{}" > combined_output.json
 
-                    ls -l
-
                     # jq -s 'reduce .[] as $item ({}; . * $item)' shared-secrets-*/*.json > secrets.json
 
 

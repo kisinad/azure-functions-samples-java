@@ -58,7 +58,7 @@ jobs:
                     echo "{}" > combined_output.json
 
                     for dir in shared-secrets-*; do
-                        # echo $dir
+                        echo $dir
                         # ls -R $dir
                         # Find the JSON file within the current artifact's directory.
                         #json_file=$(find "$dir" -name "*-secrets.json" -print -quit)

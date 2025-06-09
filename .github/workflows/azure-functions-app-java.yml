@@ -57,6 +57,9 @@ jobs:
 
                     echo "{}" > combined_output.json
 
+                    jq -s 'reduce .[] as $item ({}; . * $item)' shared-secrets-* > secrets.json
+
+
                     for dir in shared-secrets-*; do
                         # echo $dir
                         # ls -R $dir
@@ -71,11 +74,11 @@ jobs:
                               # This uses 'jq' to merge JSON objects.
                              # jq -s 'reduce .[] as $item ({}; . * $item)' $json_file > secrets.json
 
-                        #    jq -s '. *.[1]' combined_output.json "$json_file" > temp.json && mv temp.json secrets.json
+                        jq -s '. *.[1]' combined_output.json "$json_file" > temp.json && mv temp.json secrets.json
                         # fi
                     done
 
-                    cat combined_output.json
+                    cat secrets.json
 
     build-and-deploy:
         runs-on: ubuntu-latest # For Linux, use ubuntu-latest

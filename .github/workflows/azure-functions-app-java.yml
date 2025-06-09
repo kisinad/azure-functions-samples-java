@@ -62,10 +62,11 @@ jobs:
                         ls -R $dir
                         # Find the JSON file within the current artifact's directory.
                         json_file=$(find "$dir" -name "*-secrets.json" -print -quit)
+                        echo "$json_file"
                         if [[ -f "$json_file" ]]; then
                         #      # Merge the content of the current JSON file into the combined file.
                               # This uses 'jq' to merge JSON objects.
-                            jq -s '. *.[1]' combined_output.json "$json_file" > temp.json && mv temp.json secrets.json
+                            # jq -s '. *.[1]' combined_output.json "$json_file" > temp.json && mv temp.json secrets.json
                         fi
                     done
 

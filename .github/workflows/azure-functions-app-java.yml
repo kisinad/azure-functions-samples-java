@@ -64,7 +64,7 @@ jobs:
                         #json_file=$(find "$dir" -name "*-secrets.json" -print -quit)
 
 
-                    #    jq . "$dir"
+                        #    jq . "$dir"
 
                         # if [[ -f "$json_file" ]]; then
                               # Merge the content of the current JSON file into the combined file.

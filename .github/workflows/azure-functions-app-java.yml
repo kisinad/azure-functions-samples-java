@@ -45,7 +45,7 @@ jobs:
     get-secret:
         uses: ./.github/workflows/dynamic-secrets-access.yml
         with:
-            SECRET_NAME: 'SECRET'
+            SECRETS_LIST: 'SECRET, SECRET_2'
         secrets:
             AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
             SECRET: ${{ secrets.SECRET }}

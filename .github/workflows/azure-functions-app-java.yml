@@ -46,7 +46,7 @@ jobs:
         needs: generate-secrets
         uses: ./.github/workflows/dynamic-secrets-access.yml
         with:
-            SECRETS_LIST: 'SECRET_TEST'
+            SECRETS_LIST: '$SECRET_TEST'
         secrets:
             inherit
 

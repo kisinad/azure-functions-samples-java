@@ -82,6 +82,12 @@ jobs:
         environment: dev
         steps:
             -   run: |
+                    ${{ github.repository }}, ${{ env.TO_JSON }}, ${{ vars.TO_JSON }}
+
+                    echo 'using enironment ${{ env.TO_JSON }}'
+
+                     echo 'using vars ${{ vars.TO_JSON }}'
+
                     echo '${{ toJSON(needs.job1.outputs) }}' | sed 's/./& /g'
 
                     echo '${{ toJSON(needs.job1.outputs) }}'
